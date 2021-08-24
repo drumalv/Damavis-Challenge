@@ -51,6 +51,8 @@ def generateSnakeMovement(snake,move):
     newSnake.append([snake[0][0],snake[0][1]+1])
   
   for i in range(1,len(snake)):
+    #cannot repeat positions
+    if (snake[i-1][0]==newSnake[0][0] and snake[i-1][1]==newSnake[0][1]): continue
     newSnake.append(snake[i-1])
 
   return newSnake
@@ -61,31 +63,33 @@ def generateNeighbors(sol):
 
   neighbors=[]
   
-  #generate posible neighbors, checking the bounds and that the box is empty
+  #generate posible neighbors, checking the bounds and that the snake does not eat itself.
 
   # neighbor L
   if sol.b.head[0]-1 >= 0 :
-    if sol.b.board[sol.b.head[1]][sol.b.head[0]-1] != 1:
+    #new snake with L movement 
+    newSnake=generateSnakeMovement(sol.b.snake,"L")
+    if len(newSnake)==len(sol.b.snake):
         #new snake with L movement 
         newSnake=generateSnakeMovement(sol.b.snake,"L")
         neighbors.append(Sol(Board(newSnake,sol.b.n,sol.b.m),sol.c+"L",sol.depth+1))
   # neighbor R
   if sol.b.head[0]+1 < sol.b.m :
-    if sol.b.board[sol.b.head[1]][sol.b.head[0]+1] != 1 :
-        #new snake with R movement
-        newSnake=generateSnakeMovement(sol.b.snake,"R")
+    #new snake with R movement
+    newSnake=generateSnakeMovement(sol.b.snake,"R")
+    if len(newSnake)==len(sol.b.snake):        
         neighbors.append(Sol(Board(newSnake,sol.b.n,sol.b.m),sol.c+"R",sol.depth+1))
   # neighbor U
   if sol.b.head[1]-1 >= 0 :
-    if sol.b.board[sol.b.head[1]-1][sol.b.head[0]] != 1 :
-        #new snake with U movement
-        newSnake=generateSnakeMovement(sol.b.snake,"U")
+    #new snake with U movement
+    newSnake=generateSnakeMovement(sol.b.snake,"U")
+    if len(newSnake)==len(sol.b.snake):        
         neighbors.append(Sol(Board(newSnake,sol.b.n,sol.b.m),sol.c+"U",sol.depth+1))
   # neighbor D
   if sol.b.head[1]+1 < sol.b.n :
-    if sol.b.board[sol.b.head[1]+1][sol.b.head[0]] !=1 :
-        #new snake with D movement
-        newSnake=generateSnakeMovement(sol.b.snake,"D")
+    #new snake with D movement
+    newSnake=generateSnakeMovement(sol.b.snake,"D")
+    if len(newSnake)==len(sol.b.snake):        
         neighbors.append(Sol(Board(newSnake,sol.b.n,sol.b.m),sol.c+"D",sol.depth+1))
 
   return neighbors
@@ -117,8 +121,58 @@ def numberOfAvailableDifferentPaths(b, depth):
   
   return listofSol, len(listofSol)
 
+""" TESTS """
+
+#For board = [4, 3], snake = [[2, 2], [3, 2], [3, 1], [3, 0], [2, 0], [1, 0], [0, 0]], and depth = 3, the output
+#should be “numberOfAvailableDifferentPaths(board, snake, depth) = 7”.
+
 
 snake=[[2, 2], [3, 2], [3, 1], [3, 0], [2, 0], [1, 0], [0, 0]]
 b = Board(snake,3,4)
 lista,num=numberOfAvailableDifferentPaths(b,3)
 
+print("First example for board = [4, 3], snake = [[2, 2], [3, 2], [3, 1], [3, 0], [2, 0], [1, 0], [0, 0]], and depth = 3\n")
+print("numberOfAvailableDifferentPaths = "+str(num))
+print("Available movements:")
+for i in range(len(lista)):
+    print(lista[i].c)
+    
+#Test 1:
+#   ○ board: [4, 3]
+#   ○ snake: [[2,2], [3,2], [3,1], [3,0], [2,0], [1,0], [0,0]]
+#   ○ depth: 3
+#Result: 7
+
+snake=[[2, 2], [3, 2], [3, 1], [3, 0], [2, 0], [1, 0], [0, 0]]
+b = Board(snake,3,4)
+lista,num=numberOfAvailableDifferentPaths(b,3)
+
+print("\n\nTest 1: board = [4, 3], snake = [[2, 2], [3, 2], [3, 1], [3, 0], [2, 0], [1, 0], [0, 0]], and depth = 3\n")
+print("numberOfAvailableDifferentPaths = "+str(num))
+
+#Test 2:
+#   ○ board: [2, 3]
+#   ○ snake: [[0,2], [0,1], [0,0], [1,0], [1,1], [1,2]]
+#   ○ depth: 10
+#Result: 1
+
+snake=[[0,2], [0,1], [0,0], [1,0], [1,1], [1,2]]
+b = Board(snake,3,2)
+lista,num=numberOfAvailableDifferentPaths(b,10)
+
+print("\n\nTest 2: board = [2, 3], snake = [[0,2], [0,1], [0,0], [1,0], [1,1], [1,2]], and depth = 10\n")
+print("numberOfAvailableDifferentPaths = "+str(num))
+
+
+#Test 3:
+#   ○ board: [10, 10]
+#   ○ snake: [[5,5], [5,4], [4,4], [4,5]]
+#   ○ depth: 4
+#Result: 81
+
+snake=[[5,5], [5,4], [4,4], [4,5]]
+b = Board(snake,10,10)
+lista,num=numberOfAvailableDifferentPaths(b,4)
+
+print("\n\nTest 3: board = [10, 10], snake = [[5,5], [5,4], [4,4], [4,5]], and depth = 4\n")
+print("numberOfAvailableDifferentPaths = "+str(num))
