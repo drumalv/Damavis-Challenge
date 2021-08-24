@@ -64,25 +64,29 @@ def generateNeighbors(sol):
   #generate posible neighbors, checking the bounds and that the box is empty
 
   # neighbor L
-  if sol.b.head[0]-1 >= 0 and sol.b.head[0]-1 != sol.b.snake[1][0]:
-    #new snake with L movement
-    newSnake=generateSnakeMovement(sol.b.snake,"L")
-    neighbors.append(Sol(Board(newSnake,sol.b.n,sol.b.m),sol.c+"L",sol.depth+1))
+  if sol.b.head[0]-1 >= 0 :
+    if sol.b.board[sol.b.head[1]][sol.b.head[0]-1] != 1:
+        #new snake with L movement 
+        newSnake=generateSnakeMovement(sol.b.snake,"L")
+        neighbors.append(Sol(Board(newSnake,sol.b.n,sol.b.m),sol.c+"L",sol.depth+1))
   # neighbor R
-  if sol.b.head[0]+1 < sol.b.m and sol.b.head[0]+1!=sol.b.snake[1][0]:
-    #new snake with R movement
-    newSnake=generateSnakeMovement(sol.b.snake,"R")
-    neighbors.append(Sol(Board(newSnake,sol.b.n,sol.b.m),sol.c+"R",sol.depth+1))
+  if sol.b.head[0]+1 < sol.b.m :
+    if sol.b.board[sol.b.head[1]][sol.b.head[0]+1] != 1 :
+        #new snake with R movement
+        newSnake=generateSnakeMovement(sol.b.snake,"R")
+        neighbors.append(Sol(Board(newSnake,sol.b.n,sol.b.m),sol.c+"R",sol.depth+1))
   # neighbor U
-  if sol.b.head[1]-1 >= 0 and sol.b.head[1]-1!=sol.b.snake[1][1]:
-    #new snake with U movement
-    newSnake=generateSnakeMovement(sol.b.snake,"U")
-    neighbors.append(Sol(Board(newSnake,sol.b.n,sol.b.m),sol.c+"U",sol.depth+1))
+  if sol.b.head[1]-1 >= 0 :
+    if sol.b.board[sol.b.head[1]-1][sol.b.head[0]] != 1 :
+        #new snake with U movement
+        newSnake=generateSnakeMovement(sol.b.snake,"U")
+        neighbors.append(Sol(Board(newSnake,sol.b.n,sol.b.m),sol.c+"U",sol.depth+1))
   # neighbor D
-  if sol.b.head[1]+1 < sol.b.n and sol.b.head[1]+1!=sol.b.snake[1][1]:
-    #new snake with D movement
-    newSnake=generateSnakeMovement(sol.b.snake,"D")
-    neighbors.append(Sol(Board(newSnake,sol.b.n,sol.b.m),sol.c+"D",sol.depth+1))
+  if sol.b.head[1]+1 < sol.b.n :
+    if sol.b.board[sol.b.head[1]+1][sol.b.head[0]] !=1 :
+        #new snake with D movement
+        newSnake=generateSnakeMovement(sol.b.snake,"D")
+        neighbors.append(Sol(Board(newSnake,sol.b.n,sol.b.m),sol.c+"D",sol.depth+1))
 
   return neighbors
 
