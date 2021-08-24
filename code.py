@@ -97,6 +97,20 @@ def generateNeighbors(sol):
 # number of posible amounts of movements
 def numberOfAvailableDifferentPaths(b, depth):
     
+  if(b.n > 10 or b.m > 10 or b.n < 1 or b.m < 1): # bound exception
+      raise Exception("Bound dimension error")
+      
+  if(3 > len(b.snake) or 7 < len(b.snake)): #snake dimension
+     raise Exception("Snake dimension error")
+     
+  if(len(snake[0])!=2): #snake dimension
+     raise Exception("Snake dimension error")
+     
+  if(depth < 1 or depth > 20): #snake dimension
+     raise Exception("depth value error")
+     
+    
+    
   listofSol=[]
   solIni=Sol(b,"",0)
   depth_act=1
