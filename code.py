@@ -15,12 +15,9 @@ class Board:
     
     self.m=m
     self.n=n
-    self.board = np.zeros((n,m))
     self.head = snake[0]
     self.snake = np.copy(snake)
 
-    for i in range(len(snake)):
-      self.board[snake[i][1]][snake[i][0]]=1
 
 """
 class Sol
